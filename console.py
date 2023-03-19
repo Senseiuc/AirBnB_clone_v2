@@ -113,39 +113,35 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, line):
-        """Usage: create <class> <key 1>=<value 2> <key 2>=<value 2> ...
-        Create a new class instance with given keys/values and print its id.
-        """
-        try:
-            if not line:
-                raise SyntaxError()
-            my_list = line.split(" ")
-
-            kwargs = {}
-            for i in range(1, len(my_list)):
-                key, value = tuple(my_list[i].split("="))
+    def do_create(self, args):
+        """ Create an object of any class"""
+        args = args.split(" ")
+        if not args:
+            print("** class name missing **")
+            return
+        elif args[0] not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        new_instance = HBNBCommand.classes[args[0]]()
+        for i in args[1:]:
+            s_idx = i.find("=")
+            if s_idx == -1 or not i[:s_idx]:
+                continue
+            prop_name = i[:s_idx]
+            value = i[s_idx+1:]
+            if value:
                 if value[0] == '"':
                     value = value.strip('"').replace("_", " ")
                 else:
-                    try:
-                        value = eval(value)
-                    except (SyntaxError, NameError):
+                    if value.isdigit():
+                        value = int(value)
+                    elif value.replace(".", "", 1).isdigit():
+                        value = float(value)
+                    else:
                         continue
-                kwargs[key] = value
-
-            if kwargs == {}:
-                obj = eval(my_list[0])()
-            else:
-                obj = eval(my_list[0])(**kwargs)
-                storage.new(obj)
-            print(obj.id)
-            obj.save()
-
-        except SyntaxError:
-            print("** class name missing **")
-        except NameError:
-            print("** class doesn't exist **")
+            setattr(new_instance, prop_name, value)
+        storage.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
