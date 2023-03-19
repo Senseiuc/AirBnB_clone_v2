@@ -142,6 +142,7 @@ class HBNBCommand(cmd.Cmd):
                         continue
                     else:
                         value = ("\"").join(value.split("\\\""))
+                        value = (" ").join(value.split("_"))
                 else:
                     if value.isdigit():
                         value = int(value)
