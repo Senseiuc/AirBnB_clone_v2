@@ -130,19 +130,8 @@ class HBNBCommand(cmd.Cmd):
             prop_name = i[:s_idx]
             value = i[s_idx+1:]
             if value:
-                if value[0] == "\"":
-                    value = value[1:-1] if value[-1] == "\"" else value[1:]
-                    error = False
-                    for j in range(len(value)):
-                        if value[j] == "\"":
-                            if value[j-1] != "\\" or j - 1 < 0:
-                                error = True
-                                break
-                    if error:
-                        continue
-                    else:
-                        value = ("\"").join(value.split("\\\""))
-                        value = (" ").join(value.split("_"))
+                if value[0] == '"':
+                    value = value.strip('"').replace("_", " ")
                 else:
                     if value.isdigit():
                         value = int(value)
