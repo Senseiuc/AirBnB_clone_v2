@@ -140,6 +140,7 @@ class HBNBCommand(cmd.Cmd):
                     else:
                         continue
             setattr(new_instance, prop_name, value)
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
 
