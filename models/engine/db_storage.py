@@ -47,6 +47,7 @@ class DBStorage:
         if type(cls) == str:
             cls = name2class.get(cls, None)
         if cls:
+            print(self.__session.query(cls).all())
             for obj in self.__session.query(cls):
                 objects[obj.__class__.__name__ + '.' + obj.id] = obj
         else:
@@ -57,10 +58,11 @@ class DBStorage:
 
     def reload(self):
         """reloads objects from the database"""
+        Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
-        Base.metadata.create_all(self.__engine)
-        self.__session = scoped_session(session_factory)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
 
     def new(self, obj):
         """creates a new object"""

@@ -1,17 +1,14 @@
-!/usr/bin/python3
+#!/usr/bin/python3
 """ holds class State"""
-import models
 from models.base_model import BaseModel, Base
 from os import getenv
-import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-
 class State(BaseModel, Base):
     """Representation of state """
+    __tablename__ = 'states'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        __tablename__ = 'states'
         name = Column(String(128),
                       nullable=False)
         cities = relationship("City", cascade="all, delete",
@@ -27,7 +24,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """fs getter attribute that returns City instances"""
-            values_city = models.storage.all("City").values()
+            values_city = models.storage.all.items()
             list_city = []
             for city in values_city:
                 if city.state_id == self.id:
