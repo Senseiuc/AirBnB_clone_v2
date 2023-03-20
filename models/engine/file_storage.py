@@ -53,9 +53,12 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
+        """ delete an object"""
         if obj:
             item_key = obj.__class__.__name__+'.'+obj.id
             try:
-                return FileStorage.__objects.pop(item_key)
+                FileStorage.__objects.pop(item_key)
+                self.save()
             except:
                 return
+        return
