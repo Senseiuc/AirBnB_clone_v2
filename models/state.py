@@ -5,6 +5,7 @@ from os import getenv
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
+
 class State(BaseModel, Base):
     """Representation of state """
     __tablename__ = 'states'

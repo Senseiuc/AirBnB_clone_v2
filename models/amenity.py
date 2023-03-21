@@ -20,3 +20,7 @@ class Amenity(BaseModel, Base):
             "Place", secondary=place_amenity)
     else:
         name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes Amenity"""
+        super().__init__(*args, **kwargsi)
