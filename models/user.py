@@ -10,8 +10,8 @@ from sqlalchemy import Column, String
 
 class User(BaseModel, Base):
     """Representation of a user """
+    __tablename__ = 'users'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        __tablename__ = 'users'
         email = Column(String(128),
                        nullable=False)
         _password = Column('password',
