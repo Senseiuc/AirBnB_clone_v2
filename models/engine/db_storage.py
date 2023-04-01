@@ -13,7 +13,7 @@ import os
 
 
 classes = {
-    'BaseModel': BaseModel, 'User': User, 'Place': Place,
+    'User': User, 'Place': Place,
     'State': State, 'City': City, 'Amenity': Amenity,
     'Review': Review
 }
@@ -38,9 +38,14 @@ class DBStorage:
     def all(self, cls=None):
         """ all method """
         dict_objs = {}
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(classes[clss]).all()
+        if cls:
+            objs = self.__session.query(classes[cls]).all()
+            for obj in objs:
+                key = obj.__class__.__name__ + '.' + obj.id
+                dict_objs[key] = obj
+        else:
+            for i in classes:
+                objs = self.__session.query(classes[i]).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + '.' + obj.id
                     dict_objs[key] = obj
