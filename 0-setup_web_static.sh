@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
-#A script that sets up your web
-#servers for the deployment of web_static
+#A script that sets up your web servers for the deployment of web_static
 #check if nginx is installed
 
 if ! command -v nginx > /dev/null 2>&1; then
