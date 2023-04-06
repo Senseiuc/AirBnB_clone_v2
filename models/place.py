@@ -52,8 +52,7 @@ class Place(BaseModel, Base):
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", passive_deletes=True, backref="place")
         amenities = relationship(
-            "Amenity", secondary=place_amenity,
-            back_populates="place_amenities", viewonly=False)
+            "Amenity", secondary=place_amenity, viewonly=False)
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
