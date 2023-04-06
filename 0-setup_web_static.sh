@@ -3,7 +3,7 @@
 #A script that sets up your web
 #servers for the deployment of web_static
 
-if ! which nginx > /dev/null 2>&1; then
+if ! command -v nginx > /dev/null 2>&1; then
 	sudo apt-get update
 	sudo apt-get -y upgrade
 	sudo apt-get -y install nginx
