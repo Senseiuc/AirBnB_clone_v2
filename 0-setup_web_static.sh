@@ -2,8 +2,8 @@
 
 #A script that sets up your web
 #servers for the deployment of web_static
-
 #check if nginx is installed
+
 if ! command -v nginx > /dev/null 2>&1; then
 	#update server
 	sudo apt-get update
@@ -29,4 +29,3 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo sed -i "50i $MS"  /etc/nginx/sites-available/default
 #restart nginx
 sudo service nginx restart
-#end of file
