@@ -16,13 +16,13 @@ fi
 #define location code structure
 MS="\\\tlocation /hbnb_static/{\n\t\talias /data/web_static/current/;\n\t}\n"
 #mkdir recursively
-sudo mkdir -p /data/web_static/releases/test /data/web_static/shared
+sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
+#add user to group and make owner
+sudo chown -hR ubuntu:ubuntu /data/
 #create file and add text into it
 echo "Test the ngilnx configuration!" | sudo tee /data/web_static/releases/test/index.html
 #symlink file
 sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
-#add user to group and make owner
-sudo chown -hR ubuntu:ubuntu /data/
 #write into the nginx config file
 sudo sed -i "50i $MS"  /etc/nginx/sites-available/default
 #restart nginx
