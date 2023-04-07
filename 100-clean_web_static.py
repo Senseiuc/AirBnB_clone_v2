@@ -5,13 +5,11 @@ from the contents of the web_static folder of
 AirBnB Clone repo, using the function do_pack
 
 """
-from fabric.api import local
 from time import strftime
-from fabric.api import env, put, run, runs_once
+from fabric.api import local, env, put, run, cd
 import os.path
 
 
-@runs_once
 def do_pack():
     """generate a .tgz archive"""
     time = strftime("%Y%M%d%H%M%S")
@@ -61,3 +59,22 @@ def deploy():
     """ deploy file after achiving"""
     archive_path = do_pack()
     return do_deploy(archive_path) if archive_path else False
+
+
+def do_clean(number=0):
+    """
+    Deletes out-of-date archives
+    Args:
+    number: is the number of the archives, including the most recent
+    """
+    n = 1 if int(number) == 0 else int(number)
+    files = [f for f in os.listdir('./versions')]
+    files.sort(reverse=True)
+    for f in files[n:]:
+        local("rm -f versions/{}".format(f))
+    remote = "/data/web_static/releases/"
+    with cd(remote):
+        tgz = run("ls -tr | grep -E '^web_static_([0-9]{6,}){1}$'").split()
+        tgz.sort(reverse=True)
+        for d in tgz[n:]:
+            run("rm -rf {}{}".format(remote, d))
