@@ -1,44 +1,89 @@
-# A script that sets up web servers for the deployment of web_static
+# A script that Configures a web server
+# for deployment of web_static.
+
+
+$nginx_conf = "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By ${hostname};
+    root   /var/www/html;
+    index  index.html index.htm;
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}"
 
 package { 'nginx':
   ensure   => 'present',
   provider => 'apt'
-}
+} ->
 
-file {'/data/web_static/releases/test/':
-	ensure => 'directory',
-	owner => 'ubuntu',
-	group => 'ubuntu',
-}
+file { '/data':
+  ensure  => 'directory'
+} ->
 
-file {'/data/web_static/shared/':
-	ensure => 'directory',
-        owner => 'ubuntu',
-        group => 'ubuntu',
-}
+file { '/data/web_static':
+  ensure => 'directory'
+} ->
 
+file { '/data/web_static/releases':
+  ensure => 'directory'
+} ->
 
-file {'/data/web_static/releases/test/index.html':
-	ensure => 'present',
-        owner => 'ubuntu',
-        group => 'ubuntu',
-	content => 'Test Nginx'
-}
+file { '/data/web_static/releases/test':
+  ensure => 'directory'
+} ->
+
+file { '/data/web_static/shared':
+  ensure => 'directory'
+} ->
+
+file { '/data/web_static/releases/test/index.html':
+  ensure  => 'present',
+  content => "Holberton School Puppet\n"
+} ->
 
 file { '/data/web_static/current':
-  	ensure => link,
-	target => '/data/web_static/releases/test/',
-	force => true,
-	replace => true,
+  ensure => 'link',
+  target => '/data/web_static/releases/test'
+} ->
+
+exec { 'chown -R ubuntu:ubuntu /data/':
+  path => '/usr/bin/:/usr/local/bin/:/bin/'
 }
 
-exec {'configure nginx':
-	command => 'sudo sed -i \
-"\\\tlocation /hbnb_static/{\n\t\talias /data/web_static/current/;\n\t}\n $MS" \ 
-/etc/nginx/sites-available/default',
-    	path    => '/usr/local/bin/:/bin/',
-}
-exec { '/usr/bin/env sudo service nginx restart' : }
+file { '/var/www':
+  ensure => 'directory'
+} ->
 
+file { '/var/www/html':
+  ensure => 'directory'
+} ->
 
-	
+file { '/var/www/html/index.html':
+  ensure  => 'present',
+  content => "Holberton School Nginx\n"
+} ->
+
+file { '/var/www/html/404.html':
+  ensure  => 'present',
+  content => "Ceci n'est pas une page\n"
+} ->
+
+file { '/etc/nginx/sites-available/default':
+  ensure  => 'present',
+  content => $nginx_conf
+} ->
+
+exec { 'nginx restart':
+  path => '/etc/init.d/'
+}	
