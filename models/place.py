@@ -37,17 +37,6 @@ class Place(BaseModel, Base):
         amenity_ids (list of str): List of amenities.
     """
     __tablename__ = "places"
-    city_id = ""
-    user_id = ""
-    name = ""
-    description = ""
-    number_rooms = 0
-    number_bathrooms = 0
-    max_guest = 0
-    price_by_night = 0
-    latitude = 0.0
-    longitude = 0.0
-    amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship("Review", passive_deletes=True, backref="place")
@@ -63,40 +52,59 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+    else:
+        city_id = ""
+        user_id = ""
+        name = ""
+        description = ""
+        number_rooms = 0
+        number_bathrooms = 0
+        max_guest = 0
+        price_by_night = 0
+        latitude = 0.0
+        longitude = 0.0
+        amenity_ids = []
+        city_id = ""
+        user_id = ""
+        name = ""
+        description = ""
+        number_rooms = 0
+        number_bathrooms = 0
+        max_guest = 0
+        price_by_night = 0
+        latitude = 0.0
+        longitude = 0.0
+        amenity_ids = []
 
-    @property
-    def reviews(self):
-        """
-        get reviews
-        """
-        reviews_dict = models.storage.all(models.Review)
-        reviews_list = []
-        for review in reviews_dict.values():
-            if review.place_id == self.id:
-                review_list.append(review)
-        return review
+        @property
+        def reviews(self):
+            """
+            get reviews
+            """
+            reviews_dict = models.storage.all(models.Review)
+            reviews_list = []
+            for review in reviews_dict.values():
+                if review.place_id == self.id:
+                    review_list.append(review)
+            return review
 
-    @property
-    def amenities(self):
-        """
-        Gets the list of Amenity objects
-        """
-        obj_list = []
-        objs = models.storage.all('Amenity')
-        for amenity in objs.values():
-            if amenity.id in self.amenity_ids:
-                obj_list.append(amenity)
-        return obj_list
+        @property
+        def amenities(self):
+            """
+            Gets the list of Amenity objects
+            """
+            obj_list = []
+            objs = models.storage.all('Amenity')
+            for amenity in objs.values():
+                if amenity.id in self.amenity_ids:
+                    obj_list.append(amenity)
+            return obj_list
 
-    @amenities.setter
-    def amenities(self, obj):
-        """
-        Sets an amenity to Place
-        """
-        if isinstance(obj, Amenity):
-            if self.id == obj.place_id:
-                self.amenity_ids.append(obj.id)
-
-    def __init__(self, *args, **kwargs):
-        """initializes Place"""
-        super().__init__(*args, **kwargs)
+        @amenities.setter
+        def amenities(self, obj):
+            """
+            Sets an amenity to Place
+            """
+            if isinstance(obj, Amenity):
+                if self.id == obj.place_id:
+                    self.amenity_ids.append(obj.id)
