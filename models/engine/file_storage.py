@@ -60,3 +60,7 @@ class FileStorage:
                 FileStorage.__objects.pop(item_key)
                 self.save()
         return
+
+    def close(self):
+        """calls the reload method"""
+        return self.reload()

@@ -39,7 +39,10 @@ class DBStorage:
         """ all method """
         dict_objs = {}
         if cls:
-            objs = self.__session.query(classes[cls]).all()
+            if type(cls) == str:
+                objs = self.__session.query(classes[cls]).all()
+            else:
+                objs = self.__session.query(cls).all()
             for obj in objs:
                 key = obj.__class__.__name__ + '.' + obj.id
                 dict_objs[key] = obj

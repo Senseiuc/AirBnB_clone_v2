@@ -31,6 +31,9 @@ class BaseModel:
                     setattr(self, name, value)
                 if 'id' not in kwargs:
                     setattr(self, 'id', str(uuid.uuid4()))
+        if not self.created_at:
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
