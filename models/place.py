@@ -39,11 +39,11 @@ class Place(BaseModel, Base):
     __tablename__ = "places"
 
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship("Review", passive_deletes=True, backref="place")
-        amenities = relationship(
-            "Amenity", secondary=place_amenity, viewonly=False)
-        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+        amenities = relationship(
+                            "Amenity", secondary=place_amenity, viewonly=False)
+        reviews = relationship("Review", passive_deletes=True, backref="place")
         name = Column(String(128), nullable=False)
         description = Column(String(1024), nullable=True)
         number_rooms = Column(Integer, nullable=False, default=0)
