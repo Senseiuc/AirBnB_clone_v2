@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-from flask import Flask
+from flask import Flask, render_template
 from models import storage, State
-from flask import render_template
 
 app = Flask(__name__)
 
