@@ -34,8 +34,8 @@ def cities_by_states():
     for city, value in city_obj.items():
         cities.append(value)
         return render_template("8-cities_by_states.html",
-                states=states,
-                cities=cities)
+                               states=states,
+                               cities=cities)
 
 
 @app.route("/states", strict_slashes=False)
@@ -55,9 +55,9 @@ def display_states(id=None):
     if id is not None and state_id not in state_obj:
         states = None
     return render_template("9-states.html",
-            states=states,
-            cities=cities,
-            id=id)
+                           states=states,
+                           cities=cities,
+                           id=id)
 
 
 @app.route("/hbnb", strict_slashes=False)
@@ -69,10 +69,10 @@ def display_filters():
     places = storage.all("Place")
 
     return render_template("100-hbnb.html",
-            states=states,
-            cities=cities,
-            amenities=amenities,
-            places=places)
+                           states=states,
+                           cities=cities,
+                           amenities=amenities,
+                           places=places)
 
 
 if __name__ == "__main__":
