@@ -19,8 +19,8 @@ def filters():
 
 @app.teardown_appcontext
 def teardown_db(exception):
-"""closes the storage"""
-storage.close()
+    """closes the storage"""
+    storage.close()
 
 
 if __name__ == '__main__':
