@@ -8,17 +8,17 @@ from os import getenv
 from sqlalchemy.orm import relationship
 import models
 
-if getenv('HBNB_TYPE_STORAGE') == 'db':
-    place_amenity = Table(
-            'place_amenity',
-            Base.metadata,
-            Column(
-                'place_id', String(60), ForeignKey('places.id'),
-                nullable=False, primary_key=True),
-            Column(
-                'amenity_id', String(60), ForeignKey('amenities.id'),
-                nullable=False, primary_key=True)
-            )
+
+place_amenity = Table(
+        'place_amenity',
+        Base.metadata,
+        Column(
+            'place_id', String(60), ForeignKey('places.id'),
+            nullable=False, primary_key=True),
+        Column(
+            'amenity_id', String(60), ForeignKey('amenities.id'),
+            nullable=False, primary_key=True)
+        )
 
 
 class Place(BaseModel, Base):
@@ -36,8 +36,8 @@ class Place(BaseModel, Base):
         longitude (float): Longitude.
         amenity_ids (list of str): List of amenities.
     """
+    __tablename__ = "places"
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        __tablename__ = "places"
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         amenities = relationship(
