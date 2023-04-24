@@ -99,6 +99,7 @@ class Place(BaseModel, Base):
             if isinstance(obj, Amenity):
                 if self.id == obj.place_id:
                     self.amenity_ids.append(obj.id)
+
     def __init__(self, *args, **kwargs):
         """initializes Place"""
         super().__init__(*args, **kwargs)
