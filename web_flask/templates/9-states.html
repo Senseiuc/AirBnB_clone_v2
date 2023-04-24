@@ -3,11 +3,11 @@
 	<HEAD>
 		<TITLE>HBNB</TITLE>
 	</HEAD>
-	<BODY
-		{% if not state_id %}>
+	<BODY>
+		{% if not state_id %}
 		    <H1>States</H1>
 		    <UL>
-		        {% for state in states|sort(attribute='name') %}
+		        {% for state in states.values()|sort(attribute='name') %}
 		            <LI>{{ state.id }}: <B>{{ state.name }}</B>
 			{% endfor %}
 		     <UL>
