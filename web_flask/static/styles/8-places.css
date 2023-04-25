@@ -17,12 +17,20 @@
     text-align: center;
 }
 
+.headline{
+    display: flex;
+}
+
 .places article h2{
     display: inline-block;
     font-size: 30px;
     margin-top: 0;
-    margin-bottom: 40px;
-    margin-left: 20%;
+    margin-bottom: 10px;
+    margin-left: 10%;
+}
+
+.headline h2{
+    text-align: left;
 }
 
 .price_by_night{

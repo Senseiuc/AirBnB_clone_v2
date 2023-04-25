@@ -50,7 +50,7 @@
 				{% for place in places.values()|sort(attribute="name") %}
 				<ARTICLE>
 					<DIV class="headline">
-						<H2>{{ place.name }}</H2>
+						<DIV><H2>{{ place.name }}</H2></DIV>
 						<DIV class="price_by_night">&#36;{{ place.price_by_night }}</DIV>
 					</DIV>
 					<DIV class="information">
