@@ -87,6 +87,6 @@ ul{
     padding-left: 22%;
 }
 
-.filters:hover + .popover{
+.filters > div > div:hover + .popover{
     display: block;
 }
