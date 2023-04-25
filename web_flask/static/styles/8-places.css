@@ -29,6 +29,10 @@
     margin-left: 0px;
 }
 
+.information p{
+    margin-top: 0px;
+}
+
 .headline h2{
     text-align: left;
 }
