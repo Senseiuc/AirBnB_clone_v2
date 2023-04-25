@@ -65,6 +65,8 @@
     margin-top: 0;
     padding: 10%;
     display: none;
+    overflow-y: scroll;
+    max-width: 300px;
 }
 
 ul{
